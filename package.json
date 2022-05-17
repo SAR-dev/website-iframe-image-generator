@@ -13,7 +13,9 @@
   "dependencies": {
     "capture-website": "^2.4.0",
     "ejs": "^3.1.8",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "sequelize": "^6.19.1",
+    "sqlite3": "^5.0.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
