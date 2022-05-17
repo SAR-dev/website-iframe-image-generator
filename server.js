@@ -8,7 +8,7 @@ const app = express();
 const __dirname = path.resolve();
 
 app.set("view engine", "ejs");
-app.use('/static', express.static(path.join(__dirname, 'images')))
+app.use("/static", express.static(path.join(__dirname, "images")));
 
 sequelize.sync().then(() => {
   console.log("DB ready");
@@ -24,6 +24,10 @@ function uuidv4() {
 
 app.post("/generate", async (req, res) => {
   const fileName = `${uuidv4()}.jpeg`;
+  await captureWebsite.file(req.query.url, `images/${fileName}`, {
+    type: "jpeg",
+    quality: 0.5,
+  });
   const snapshot = await Snapshot.create({
     url: req.query.url,
     image: fileName,
@@ -31,11 +35,8 @@ app.post("/generate", async (req, res) => {
     color: req.query.color ? req.query.color : "#ffffff",
     text: req.query.text ? req.query.text : "Koji Me",
   });
-  await captureWebsite.file(req.query.url, `images/${fileName}`, {
-    type: "jpeg",
-    quality: 0.5,
-  });
-  res.render("index", { snapshot: snapshot });
+
+  res.json({ data: snapshot });
 });
 
 app.get("/generate", async (req, res) => {
@@ -49,7 +50,9 @@ app.get("/generate", async (req, res) => {
 });
 
 app.get("/iframe", async (req, res) => {
-  res.send(`<iframe src="http://localhost:3000/generate?id=${req.query.id}" title="description" scrolling="no" height="400" width="650"></iframe>`)
-})
+  res.send(
+    `<iframe src="http://localhost:3000/generate?id=${req.query.id}" title="description" scrolling="no" height="400" width="650"></iframe>`
+  );
+});
 
 app.listen(3000);
