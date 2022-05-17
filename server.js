@@ -2,11 +2,13 @@ import express from "express";
 import captureWebsite from "capture-website";
 import { sequelize } from "./database.js";
 import { Snapshot } from "./model.js";
+import path from "path";
 
 const app = express();
+const __dirname = path.resolve();
 
 app.set("view engine", "ejs");
-app.use(express.static("images"));
+app.use('/static', express.static(path.join(__dirname, 'images')))
 
 sequelize.sync().then(() => {
   console.log("DB ready");
