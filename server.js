@@ -2,11 +2,13 @@ import express from "express";
 import captureWebsite from "capture-website";
 import { sequelize } from "./database.js";
 import { Snapshot } from "./model.js";
+import cors from "cors";
 import path from "path";
 
 const app = express();
 const __dirname = path.resolve();
 
+app.use(cors())
 app.set("view engine", "ejs");
 app.use("/static", express.static(path.join(__dirname, "images")));
 
@@ -27,6 +29,8 @@ app.post("/generate", async (req, res) => {
   await captureWebsite.file(req.query.url, `images/${fileName}`, {
     type: "jpeg",
     quality: 0.5,
+    width: 1600,
+    height: 900
   });
   const snapshot = await Snapshot.create({
     url: req.query.url,
@@ -55,4 +59,4 @@ app.get("/iframe", async (req, res) => {
   );
 });
 
-app.listen(3000);
+app.listen(3001);
