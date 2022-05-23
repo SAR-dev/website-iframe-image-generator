@@ -11,10 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "capture-website": "^2.4.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.8",
     "express": "^4.17.1",
+    "imgbb-uploader": "^1.4.0",
     "sequelize": "^6.19.1",
     "sqlite3": "^5.0.8"
   },
